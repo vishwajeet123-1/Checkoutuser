@@ -1,0 +1,416 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#F5F0E7">
+  <meta name="color-scheme" content="light">
+  <title>Checkout — Smart Shopping</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet"> 
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+</head>
+
+<body>
+
+<header class="topbar">
+<a class="brand" href="#top" aria-label="Check.out home">
+  <span class="brand-wordmark">
+    Check<span class="brand-dot">.out</span>
+  </span>
+</a>
+
+  <div class="header-right">
+    <span class="live-indicator"></span>
+    <span class="customer-label">CUSTOMER</span>
+  </div>
+</header>
+
+<main class="container" id="top">
+
+  <!-- INTRO -->
+  <section class="intro">
+    <div class="eyebrow">
+      <span class="eyebrow-line"></span>
+      SMART RETAIL EXPERIENCE
+    </div>
+
+    <h1>Shopping,<br><span>without the wait.</span></h1>
+
+    <p class="subtitle">
+      Scan your products, build your cart and transfer your bill.
+      Simple shopping starts here.
+    </p>
+  </section>
+
+  <!-- SHOP CONNECTION -->
+  <section class="scanner-card" id="shopConnectionCard">
+
+    <div class="section-heading">
+      <div>
+        <span class="step-label">YOUR FIRST STEP</span>
+        <h2>Connect to a store</h2>
+        <p class="muted">Scan the QR code displayed by your shopkeeper.</p>
+      </div>
+
+      <span class="step-number">01</span>
+    </div>
+
+    <div class="camera-area">
+
+      <div id="reader"></div>
+
+      <div class="camera-placeholder" id="cameraPlaceholder">
+        <div class="camera-placeholder-icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="6" width="18" height="13" rx="3"/>
+            <circle cx="12" cy="12.5" r="3"/>
+            <path d="M8 6l1.5-2h5L16 6"/>
+          </svg>
+        </div>
+
+        <strong>Your camera is waiting</strong>
+        <p>Start the camera to scan your shop QR code.</p>
+      </div>
+
+      <div class="scan-frame" id="scanFrame">
+        <span></span><span></span><span></span><span></span>
+        <div class="scan-laser"></div>
+      </div>
+
+      <div class="camera-top-label">
+        <span class="live-dot"></span>
+        CAMERA SCANNER
+      </div>
+
+    </div>
+
+    <p class="status" id="status" role="status" aria-live="polite">
+      Camera is not active.
+    </p>
+
+
+<div class="button-stack">
+  <button class="primary-button" id="startButton">
+
+    <span class="button-icon">
+      <svg
+        viewBox="0 0 24 24"
+        width="20"
+        height="20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.9"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <rect x="3" y="3" width="7" height="7" rx="1"/>
+        <rect x="14" y="3" width="7" height="7" rx="1"/>
+        <rect x="3" y="14" width="7" height="7" rx="1"/>
+        <path d="M14 14h3v3h-3z"/>
+        <path d="M21 14v2M19 19h2v2M14 21h2"/>
+      </svg>
+    </span>
+
+    <span>Scan shop QR</span>
+
+    <span class="button-arrow">→</span>
+
+  </button>
+</div>
+
+
+      <button class="secondary-button" id="stopButton" hidden>
+        Stop camera
+      </button>
+    </div>
+
+    <p class="helper-text">
+      Camera access is required. Use HTTPS or localhost.
+    </p>
+  </section>
+
+  <!-- CONNECTED STORE -->
+  <section class="connected-card" id="connectedCard" hidden>
+
+    <div class="connected-icon">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M5 12.5l4.5 4.5L19 7"/>
+      </svg>
+    </div>
+
+    <div class="connected-details">
+      <span class="success-label">STORE CONNECTED</span>
+      <h2>You're ready to shop.</h2>
+      <p>Shop ID: <strong id="connectedShopId"></strong></p>
+    </div>
+
+    <button class="text-button" id="changeShopButton">
+      Change
+    </button>
+  </section>
+
+  <!-- SHOPPING -->
+  <section class="shopping-card" id="shoppingCard" hidden>
+
+    <div class="shopping-welcome">
+      <div>
+        <span class="step-label">YOUR SHOPPING SPACE</span>
+        <h2>Let's get shopping.</h2>
+        <p class="muted">Scan a product to add it to your cart.</p>
+      </div>
+
+      <div class="shopping-status">
+        <span class="live-dot"></span>
+        CONNECTED
+      </div>
+    </div>
+
+    <div class="shopping-grid">
+
+      <!-- PRODUCT SCANNER -->
+      <section class="product-panel">
+
+        <div class="panel-heading">
+          <div>
+            <span class="mini-label">PRODUCT SCANNER</span>
+            <h3>Scan your products</h3>
+          </div>
+
+          <div class="scanner-symbol">▦</div>
+        </div>
+
+        <div class="product-camera-area">
+
+          <div id="productReader"></div>
+
+          <div class="product-camera-placeholder" id="productCameraPlaceholder">
+            <div class="product-placeholder-icon"></div>
+            <strong>Ready to scan</strong>
+            <p>Position the product barcode inside the camera frame.</p>
+          </div>
+
+        </div>
+
+        <p class="status" id="productScanStatus" role="status" aria-live="polite">
+          Press the button to start scanning.
+        </p>
+
+        <div class="button-stack">
+          <button class="primary-button" id="startProductScanner">
+            <span class="button-icon">▦</span>
+            Scan Barcode
+            <span class="button-arrow">→</span>
+          </button>
+
+          <button class="secondary-button" id="stopProductScanner" hidden>
+            Stop scanner
+          </button>
+        </div>
+
+        <!-- PRODUCT FOUND -->
+        <div class="product-details-card" id="productDetailsCard" hidden>
+
+          <div class="product-found-header">
+            <span class="success-label">✓ PRODUCT FOUND</span>
+            <span class="product-found-dot"></span>
+          </div>
+
+          <h3 id="productName"></h3>
+
+          <dl class="product-information">
+            <div>
+              <dt>Barcode</dt>
+              <dd id="productBarcode"></dd>
+            </div>
+
+            <div>
+              <dt>Category</dt>
+              <dd id="productCategory"></dd>
+            </div>
+
+            <div>
+              <dt>Price</dt>
+              <dd id="productPrice" class="product-price"></dd>
+            </div>
+          </dl>
+
+          <button class="primary-button" id="addToCartButton">
+            Add to cart <span class="button-arrow">+</span>
+          </button>
+
+        </div>
+
+      </section>
+
+      <!-- CART -->
+      <section class="cart-panel cart-section">
+
+        <div class="cart-heading">
+          <div>
+            <span class="mini-label">YOUR SELECTION</span>
+            <h3>Your cart</h3>
+          </div>
+
+          <span class="cart-count" id="cartCount">0 items</span>
+        </div>
+
+        <div id="cartItems">
+          <div class="empty-cart">
+            <div class="empty-cart-icon">🛍</div>
+            <strong>Your cart is empty</strong>
+            <p>Products you scan will appear here.</p>
+          </div>
+        </div>
+
+        <div class="cart-total">
+          <div>
+            <span>Total amount</span>
+            <small>Including listed product prices</small>
+          </div>
+
+          <strong id="cartTotal">₹0.00</strong>
+        </div>
+
+        <button class="primary-button checkout-action"
+                id="checkoutButton" disabled>
+          Review your bill <span class="button-arrow">→</span>
+        </button>
+
+      </section>
+
+    </div>
+
+    <!-- BILL REVIEW -->
+    <section class="bill-review-card" id="billReviewCard" hidden>
+
+      <div class="bill-heading">
+        <span class="step-label">FINAL STEP</span>
+        <h2>Review your shopping.</h2>
+        <p class="muted">Check your items before transferring your bill.</p>
+      </div>
+
+      <div id="billReviewItems"></div>
+
+      <div class="bill-review-total">
+        <span>Total to transfer</span>
+        <strong id="billReviewTotal">₹0.00</strong>
+      </div>
+
+      <div class="bill-actions">
+
+        <button class="secondary-button" id="backToCartButton">
+          ← Back to cart
+        </button>
+
+        <button class="primary-button" id="generateBillQRButton">
+          Generate bill QR →
+        </button>
+
+      </div>
+
+      <!-- ANIMATED QR -->
+      <div id="billQRDisplay" class="bill-qr-display" hidden>
+
+        <div class="qr-transfer-heading">
+          <span class="success-label">BILL TRANSFER</span>
+          <h3>Ready for the shopkeeper.</h3>
+          <p>Keep your animated QR visible to the shopkeeper's scanner.</p>
+        </div>
+
+        <div class="qr-canvas-wrap">
+          <canvas id="billQRCanvas"
+                  width="720"
+                  height="720"
+                  aria-label="Animated bill transfer QR"></canvas>
+        </div>
+
+        <p id="billQRFrame">Frame 0 / 0</p>
+
+        <button class="secondary-button" id="pauseBillQRButton">
+          Pause animation
+        </button>
+
+      </div>
+
+      <p id="billQRStatus" class="status" role="status" aria-live="polite">
+        Generate your animated bill QR to transfer your cart.
+      </p>
+
+    </section>
+
+  </section>
+
+  <footer class="footer-note">
+    <span class="footer-brand">Checkout.</span>
+    <p>Smart shopping. Simple checkout.</p>
+    <small>No payment is collected through this application.</small>
+  </footer>
+
+</main>
+
+<!-- SHOP CONNECTION ANIMATION OVERLAY -->
+<div class="connection-overlay" id="connectionOverlay"
+     aria-hidden="true">
+
+  <div class="connection-content">
+
+    <div class="connection-orbit">
+      <div class="orbit-ring orbit-one"></div>
+      <div class="orbit-ring orbit-two"></div>
+
+      <div class="connection-icon" id="connectionIcon">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M5 12.5l4.5 4.5L19 7"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="connection-copy">
+      <span class="connection-eyebrow" id="connectionEyebrow">
+        CHECKOUT CONNECTION
+      </span>
+
+      <h2 id="connectionTitle">QR detected!</h2>
+
+      <p id="connectionMessage">
+        Preparing your shopping experience...
+      </p>
+    </div>
+
+    <div class="connection-progress">
+      <div class="connection-progress-bar" id="connectionProgress"></div>
+    </div>
+
+    <p class="connection-footnote" id="connectionFootnote">
+      Please wait a moment
+    </p>
+
+  </div>
+
+</div>
+
+<!-- NOTIFICATION -->
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <span class="toast-icon">✓</span>
+  <span id="toastMessage">Product added</span>
+</div>
+
+<!-- EXISTING BILL TRANSFER MODULES: KEEP THESE PATHS AND ORDER -->
+<script src="../transfer/libs/qrcodegen-lite.js"></script>
+<script src="../transfer/js/utils.js"></script>
+<script src="../transfer/js/validator.js"></script>
+<script src="../transfer/js/protocol.js"></script>
+<script src="../transfer/js/encoder.js"></script>
+<script src="../transfer/js/qr-generator.js"></script>
+
+<script type="module" src="js/script.js"></script>
+
+</body>
+</html>
