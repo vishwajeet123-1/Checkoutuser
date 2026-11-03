@@ -2406,3 +2406,112 @@ a:focus-visible {
     transition-duration: .01ms !important;
   }
 }
+
+
+
+/* =====================================================
+   CHECK.OUT — MOBILE BOTTOM NAVIGATION FIX
+   Fixes content overlapping the fixed navigation bar
+===================================================== */
+
+/* Allow the page to scroll naturally */
+html {
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body.checkout-active {
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Give the workspace enough room below the navigation */
+body.checkout-active .checkout-workspace {
+  min-height: auto;
+  padding-bottom: calc(100px + env(safe-area-inset-bottom));
+}
+
+/* Do not force the scanner screen into a fixed height */
+body.checkout-active #scanScreen {
+  height: auto;
+  min-height: 0;
+  padding-bottom: 18px;
+}
+
+/* Let the product panel grow with its content */
+body.checkout-active #scanScreen .product-panel {
+  height: auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Keep the camera large, but prevent it from consuming
+   the entire available mobile screen */
+body.checkout-active #scanScreen .product-camera-area {
+  flex: 0 0 auto;
+  height: clamp(260px, 38dvh, 390px);
+  min-height: 260px;
+}
+
+/* Keep product details and buttons in normal document flow */
+body.checkout-active #scanScreen .product-details-card {
+  position: relative;
+  flex-shrink: 0;
+  margin-bottom: 16px;
+}
+
+/* Keep manual entry accessible */
+body.checkout-active #scanScreen .manual-barcode-area {
+  position: relative;
+  flex-shrink: 0;
+  padding-bottom: 20px;
+}
+
+/* Fixed bottom navigation */
+body.checkout-active .checkout-bottom-nav {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  min-height: calc(72px + env(safe-area-inset-bottom));
+  padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Make navigation buttons reliably clickable */
+body.checkout-active .checkout-nav-button {
+  min-width: 0;
+  min-height: 54px;
+  position: relative;
+  z-index: 1;
+  touch-action: manipulation;
+}
+
+/* Keep cart and bill screens clear of navigation */
+body.checkout-active #cartScreen,
+body.checkout-active #checkoutScreen {
+  padding-bottom: calc(110px + env(safe-area-inset-bottom));
+}
+
+/* Smaller screens */
+@media (max-width: 600px) {
+  body.checkout-active .checkout-workspace {
+    min-height: auto;
+  }
+
+  body.checkout-active #scanScreen {
+    height: auto;
+    min-height: 0;
+  }
+
+  body.checkout-active #scanScreen .product-camera-area {
+    height: clamp(250px, 36dvh, 340px);
+  }
+}
